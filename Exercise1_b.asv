@@ -1,0 +1,22 @@
+close all; clear all; clc;
+data=load('.\datasets\dataLinearSeparability.mat');
+N=length(data.X0);
+X0=zeros(N,length(cell2mat(data.X0(1))));
+X1=zeros(N,length(cell2mat(data.X1(1))));
+for i=1:N
+    X0(i,:)=cell2mat(data.X0(i))';
+    X1(i,:)=cell2mat(data.X1(i))';
+end
+X0=[ones(N,1),X0]';
+X1=[ones(N,1),X1]';
+d0=(ones(N,1));
+d1=(-ones(N,1));
+W=zeros(8,1);
+inputD=[X0,X1];
+a=0.001;
+ds=[d0;d1];
+for i=1:2*N
+    y=sign(W'*inputD);
+    W= W + a*(inputD*(ds-y));
+
+end
